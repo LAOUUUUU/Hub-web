@@ -260,18 +260,166 @@
       text-overflow: ellipsis;
     }
 
-    iframe {
-      width: 100%;
-      height: 560px;
-      border: 0;
-      display: block;
-      background: #111;
-    }
-
     .note {
       margin: 0;
       color: var(--muted);
       font-size: 0.9rem;
+    }
+
+    .preview-card {
+      min-height: 560px;
+      display: grid;
+      align-content: start;
+      background: #121213;
+    }
+
+    .preview-hero {
+      padding: 18px;
+      border-bottom: 1px solid var(--border);
+      background: #18181a;
+    }
+
+    .preview-label {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #202024;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .preview-card h3 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .preview-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .preview-subtitle {
+      margin-top: 8px;
+      max-width: 520px;
+    }
+
+    .preview-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .preview-mini-box {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #1a1a1d;
+      padding: 12px;
+    }
+
+    .preview-mini-box strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .preview-mini-box span {
+      color: var(--soft);
+      font-size: 0.95rem;
+    }
+
+    .preview-visual {
+      margin: 18px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #1a1a1d;
+      overflow: hidden;
+    }
+
+    .preview-visual-bar {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      background: #161618;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .preview-visual-body {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .preview-line {
+      height: 12px;
+      border-radius: 999px;
+      background: #2a2a2d;
+    }
+
+    .preview-line.short {
+      width: 38%;
+    }
+
+    .preview-line.medium {
+      width: 62%;
+    }
+
+    .preview-line.long {
+      width: 100%;
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 12px;
+    }
+
+    .preview-block {
+      min-height: 200px;
+      border-radius: 10px;
+      background: #242428;
+      border: 1px solid var(--border);
+    }
+
+    .preview-block.large {
+      padding: 16px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .preview-block.side {
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .preview-panel-title {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .preview-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .preview-chip {
+      width: fit-content;
+      padding: 5px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #1a1a1c;
+      color: var(--muted);
+      font-size: 0.76rem;
     }
 
     @media (max-width: 900px) {
@@ -280,6 +428,11 @@
       }
 
       .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .preview-summary,
+      .preview-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -304,8 +457,12 @@
         align-items: start;
       }
 
-      iframe {
-        height: 380px;
+      .preview-card {
+        min-height: 360px;
+      }
+
+      .preview-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -373,17 +530,60 @@
 
               <div class="preview-frame">
                 <div class="preview-bar" id="previewUrl">https://your-site-url.com</div>
-                <iframe
-                  id="sitePreview"
-                  title="Website preview"
-                  src="https://example.com"
-                  loading="lazy"
-                  referrerpolicy="no-referrer"
-                ></iframe>
+                <div class="preview-card">
+                  <div class="preview-hero">
+                    <span class="preview-label">Website preview</span>
+                    <h3 id="previewTitle">Your Main Website</h3>
+                    <p class="preview-subtitle" id="previewDescription">Replace this with your real website.</p>
+                  </div>
+
+                  <div class="preview-summary">
+                    <div class="preview-mini-box">
+                      <strong>Domain</strong>
+                      <span id="previewDomain">your-site-url.com</span>
+                    </div>
+                    <div class="preview-mini-box">
+                      <strong>Category</strong>
+                      <span id="previewCategory">Main site</span>
+                    </div>
+                    <div class="preview-mini-box">
+                      <strong>Status</strong>
+                      <span id="previewStatus">Ready to edit</span>
+                    </div>
+                  </div>
+
+                  <div class="preview-visual">
+                    <div class="preview-visual-bar">Homepage mockup</div>
+                    <div class="preview-visual-body">
+                      <div class="preview-line short"></div>
+                      <div class="preview-line medium"></div>
+                      <div class="preview-line long"></div>
+                      <div class="preview-grid">
+                        <div class="preview-block large">
+                          <h4 class="preview-panel-title" id="previewPanelTitle">School Projects</h4>
+                          <div class="preview-chip" id="previewUse">School Projects</div>
+                          <div class="preview-stack">
+                            <div class="preview-line long"></div>
+                            <div class="preview-line medium"></div>
+                            <div class="preview-line long"></div>
+                            <div class="preview-line short"></div>
+                          </div>
+                        </div>
+                        <div class="preview-block side">
+                          <div class="preview-line medium"></div>
+                          <div class="preview-line long"></div>
+                          <div class="preview-line short"></div>
+                          <div class="preview-line long"></div>
+                          <div class="preview-line medium"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <p class="note">
-                Some websites may not load inside the preview if they block iframe embedding.
+                This preview is built into the hub so it still works even when a website blocks embeds or returns 403.
               </p>
             </div>
           </div>
@@ -407,8 +607,14 @@
     ];
 
     const siteList = document.getElementById("siteList");
-    const sitePreview = document.getElementById("sitePreview");
     const previewUrl = document.getElementById("previewUrl");
+    const previewTitle = document.getElementById("previewTitle");
+    const previewDescription = document.getElementById("previewDescription");
+    const previewDomain = document.getElementById("previewDomain");
+    const previewCategory = document.getElementById("previewCategory");
+    const previewStatus = document.getElementById("previewStatus");
+    const previewUse = document.getElementById("previewUse");
+    const previewPanelTitle = document.getElementById("previewPanelTitle");
     const featureTitle = document.getElementById("featureTitle");
     const featureDescription = document.getElementById("featureDescription");
     const featureCategory = document.getElementById("featureCategory");
@@ -423,7 +629,13 @@
       featureStatus.textContent = site.status;
       featureUse.textContent = site.use;
       previewUrl.textContent = site.preview;
-      sitePreview.src = site.preview;
+      previewTitle.textContent = site.title;
+      previewDescription.textContent = site.description;
+      previewDomain.textContent = new URL(site.url).hostname;
+      previewCategory.textContent = site.category;
+      previewStatus.textContent = site.status;
+      previewUse.textContent = site.use;
+      previewPanelTitle.textContent = site.title;
       visitButton.href = site.url;
 
       document.querySelectorAll(".site-card").forEach((card) => {
