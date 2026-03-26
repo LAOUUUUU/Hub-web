@@ -3,48 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Night Hub</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <title>Website Hub</title>
   <style>
-    *, *::before, *::after {
+    * {
       box-sizing: border-box;
     }
 
     :root {
-      --bg: #06070b;
-      --bg-alt: #10131b;
-      --panel: rgba(14, 18, 27, 0.9);
-      --panel-strong: rgba(18, 23, 35, 0.98);
-      --line: rgba(130, 154, 204, 0.16);
-      --line-strong: rgba(130, 154, 204, 0.28);
-      --text: #eef2ff;
-      --muted: #9aa5c3;
-      --accent: #7dd3fc;
-      --accent-strong: #38bdf8;
-      --accent-soft: rgba(56, 189, 248, 0.16);
-      --glow: rgba(34, 211, 238, 0.26);
-      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-md: 16px;
+      --page: #0f0f10;
+      --surface: #171718;
+      --surface-2: #1f1f21;
+      --surface-3: #252528;
+      --border: #303035;
+      --border-strong: #3a3a40;
+      --text: #f1f1f1;
+      --muted: #a7a7ad;
+      --soft: #d8d8dc;
     }
 
     html {
-      scroll-behavior: smooth;
-      background:
-        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 30%),
-        radial-gradient(circle at top right, rgba(14, 165, 233, 0.12), transparent 26%),
-        linear-gradient(180deg, #05060a 0%, #090b12 100%);
+      background: #0f0f10;
     }
 
     body {
       margin: 0;
       min-height: 100vh;
+      background: var(--page);
       color: var(--text);
-      font-family: "Space Grotesk", sans-serif;
-      background: transparent;
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
     }
 
     a {
@@ -59,617 +46,262 @@
       font: inherit;
     }
 
-    .backdrop {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
+    .page {
+      width: min(1100px, calc(100% - 24px));
+      margin: 24px auto;
+    }
+
+    .doc-shell {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
       overflow: hidden;
     }
 
-    .backdrop::before,
-    .backdrop::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(18px);
-    }
-
-    .backdrop::before {
-      width: 28rem;
-      height: 28rem;
-      top: -10rem;
-      left: -8rem;
-      background: rgba(34, 211, 238, 0.14);
-    }
-
-    .backdrop::after {
-      width: 22rem;
-      height: 22rem;
-      right: -6rem;
-      bottom: 6rem;
-      background: rgba(59, 130, 246, 0.12);
-    }
-
-    .page-shell {
-      width: min(1240px, calc(100% - 1.5rem));
-      margin: 0 auto;
-      padding: 1rem 0 2rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      background:
-        linear-gradient(135deg, rgba(12, 17, 26, 0.98), rgba(8, 10, 16, 0.94)),
-        linear-gradient(180deg, rgba(125, 211, 252, 0.04), transparent);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow);
-      padding: clamp(1.25rem, 3vw, 2rem);
-      margin-bottom: 1rem;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: auto -8% -35% auto;
-      width: 22rem;
-      height: 22rem;
-      background: radial-gradient(circle, rgba(34, 211, 238, 0.14), transparent 65%);
-      pointer-events: none;
-    }
-
-    .hero-top {
+    .topbar {
       display: flex;
       justify-content: space-between;
-      gap: 1rem;
-      align-items: start;
-      margin-bottom: 1.5rem;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 18px;
+      background: #141415;
+      border-bottom: 1px solid var(--border);
     }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.55rem;
-      padding: 0.45rem 0.8rem;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
+    .topbar h1 {
+      margin: 0;
+      font-size: 1.1rem;
       font-weight: 700;
     }
 
-    .badge::before {
-      content: "";
-      width: 0.55rem;
-      height: 0.55rem;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 18px var(--glow);
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 1.25rem;
-      align-items: stretch;
-    }
-
-    .hero-copy h1,
-    .section-head h2,
-    .feature-copy h2,
-    .template-panel h3,
-    .site-card h3 {
-      margin: 0;
-      font-family: "Sora", sans-serif;
-      line-height: 1;
-    }
-
-    .hero-copy h1 {
-      font-size: clamp(2.8rem, 7vw, 5.5rem);
-      max-width: 8ch;
-      margin-bottom: 1rem;
-    }
-
-    .hero-copy p {
-      margin: 0;
-      max-width: 56ch;
+    .topbar span {
       color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.7;
+      font-size: 0.9rem;
     }
 
-    .quick-stats {
+    .doc {
+      padding: 18px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.8rem;
-      margin-top: 1.5rem;
+      gap: 18px;
     }
 
-    .stat {
-      padding: 1rem;
-      border-radius: var(--radius-md);
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.07);
+    .section {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
     }
 
-    .stat strong {
-      display: block;
-      margin-bottom: 0.45rem;
-      font-size: 1.1rem;
+    .section h2,
+    .section h3 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
     }
 
-    .stat span {
+    .section p {
+      margin: 0 0 12px;
+      color: var(--muted);
+    }
+
+    .template-box {
+      background: #121213;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 14px;
+      overflow-x: auto;
+    }
+
+    pre {
+      margin: 0;
+      color: var(--soft);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .link-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .site-card {
+      width: 100%;
+      text-align: left;
+      background: var(--surface-3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .site-card.active {
+      border-color: #5a5a62;
+      background: #2a2a2d;
+    }
+
+    .site-card h3 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+    }
+
+    .site-card p {
+      margin: 0 0 10px;
       color: var(--muted);
       font-size: 0.92rem;
     }
 
-    .hero-side {
-      display: grid;
-      gap: 0.9rem;
-    }
-
-    .floating-panel {
-      border-radius: var(--radius-lg);
-      background: linear-gradient(180deg, rgba(14, 18, 27, 0.96), rgba(9, 12, 18, 0.94));
-      border: 1px solid rgba(125, 211, 252, 0.12);
-      padding: 1rem;
-    }
-
-    .floating-panel .label {
-      display: inline-block;
-      margin-bottom: 0.7rem;
-      font-size: 0.74rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .floating-panel p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .link-chip-row {
+    .site-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.65rem;
-      margin-top: 0.85rem;
+      gap: 8px;
     }
 
-    .link-chip {
-      padding: 0.55rem 0.8rem;
+    .site-meta span {
+      background: #1a1a1c;
+      border: 1px solid var(--border);
       border-radius: 999px;
-      background: rgba(125, 211, 252, 0.08);
-      border: 1px solid rgba(125, 211, 252, 0.14);
-      color: var(--text);
-      font-size: 0.84rem;
+      padding: 4px 8px;
+      color: var(--muted);
+      font-size: 0.78rem;
     }
 
-    .main-grid {
+    .viewer {
       display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.8fr);
-      gap: 1rem;
-      align-items: start;
+      gap: 14px;
     }
 
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .feature-panel {
-      padding: 1.15rem;
-    }
-
-    .section-head {
+    .viewer-head {
       display: flex;
       justify-content: space-between;
-      gap: 1rem;
-      align-items: end;
-      margin-bottom: 1rem;
+      gap: 12px;
+      align-items: start;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .section-head h2 {
-      font-size: clamp(1.8rem, 4vw, 2.7rem);
+    .viewer-head h2 {
+      margin: 0 0 6px;
+      font-size: 1.25rem;
     }
 
-    .section-head p {
-      margin: 0;
-      max-width: 42ch;
-      color: var(--muted);
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-      gap: 1rem;
-    }
-
-    .preview-shell {
-      position: relative;
-      min-height: 540px;
-      border-radius: 22px;
-      overflow: hidden;
-      border: 1px solid var(--line-strong);
-      background:
-        linear-gradient(180deg, rgba(8, 12, 18, 0.98), rgba(8, 12, 18, 0.9)),
-        radial-gradient(circle at top, rgba(34, 211, 238, 0.08), transparent 45%);
-    }
-
-    .preview-bar {
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.8rem 1rem;
-      background: rgba(255, 255, 255, 0.03);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .dot {
-      width: 0.65rem;
-      height: 0.65rem;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.25);
-    }
-
-    .dot:nth-child(1) { background: #fb7185; }
-    .dot:nth-child(2) { background: #fbbf24; }
-    .dot:nth-child(3) { background: #4ade80; }
-
-    .preview-url {
-      margin-left: 0.5rem;
-      padding: 0.45rem 0.7rem;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--muted);
-      font-size: 0.82rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: calc(100% - 3rem);
-    }
-
-    iframe {
-      width: 100%;
-      height: 475px;
-      border: 0;
-      display: block;
-      background: #0b0e14;
-    }
-
-    .preview-note {
-      padding: 0.85rem 1rem 1rem;
-      color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
-
-    .feature-copy {
-      display: grid;
-      gap: 1rem;
-      align-content: start;
-    }
-
-    .feature-card {
-      padding: 1.1rem;
-      border-radius: 22px;
-      background: linear-gradient(180deg, rgba(18, 23, 35, 0.98), rgba(9, 12, 18, 0.95));
-      border: 1px solid rgba(125, 211, 252, 0.12);
-    }
-
-    .feature-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      margin-bottom: 0.7rem;
-      color: var(--accent);
-      font-size: 0.76rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      font-weight: 700;
-    }
-
-    .feature-tag::before {
-      content: "";
-      width: 1.3rem;
-      height: 1px;
-      background: currentColor;
-    }
-
-    .feature-copy h2 {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      margin-bottom: 0.8rem;
-    }
-
-    .feature-copy p {
+    .viewer-head p {
       margin: 0;
       color: var(--muted);
-      line-height: 1.7;
     }
 
-    .action-row {
+    .actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 1rem;
+      gap: 8px;
     }
 
     .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.85rem 1rem;
-      border-radius: 14px;
-      border: 1px solid transparent;
-      font-weight: 700;
-      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-    }
-
-    .button:hover,
-    .button:focus-visible {
-      transform: translateY(-1px);
-    }
-
-    .button-primary {
-      background: linear-gradient(135deg, var(--accent-strong), #0ea5e9);
-      color: #03121b;
-      box-shadow: 0 18px 32px rgba(14, 165, 233, 0.25);
-    }
-
-    .button-secondary {
-      background: rgba(255, 255, 255, 0.03);
-      border-color: rgba(255, 255, 255, 0.08);
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-strong);
+      background: #2b2b2f;
       color: var(--text);
+      font-weight: 600;
     }
 
-    .meta-grid {
+    .info-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.8rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
     }
 
-    .meta-card {
-      padding: 0.95rem;
-      border-radius: var(--radius-md);
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+    .info-box {
+      background: #1a1a1c;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
     }
 
-    .meta-card span {
+    .info-box strong {
       display: block;
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--accent);
-      margin-bottom: 0.45rem;
-      font-weight: 700;
-    }
-
-    .meta-card strong {
-      display: block;
-      font-size: 1rem;
-      line-height: 1.5;
-    }
-
-    .sidebar-stack {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .panel-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      align-items: center;
-      padding: 1.1rem 1.1rem 0;
-    }
-
-    .panel-head h3 {
-      margin: 0;
-      font-size: 1.15rem;
-      font-family: "Sora", sans-serif;
-    }
-
-    .panel-head span {
+      margin-bottom: 6px;
+      font-size: 0.8rem;
       color: var(--muted);
-      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
-    .site-list {
-      display: grid;
-      gap: 0.85rem;
-      padding: 1rem 1.1rem 1.1rem;
+    .info-box span {
+      color: var(--soft);
+      font-size: 0.95rem;
     }
 
-    .site-card {
-      position: relative;
-      display: grid;
-      gap: 0.8rem;
-      width: 100%;
-      padding: 1rem;
-      border-radius: 20px;
-      background: linear-gradient(180deg, rgba(17, 22, 34, 0.96), rgba(10, 13, 20, 0.96));
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      color: var(--text);
-      text-align: left;
-      cursor: pointer;
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .site-card:hover,
-    .site-card:focus-visible,
-    .site-card.active {
-      transform: translateY(-2px);
-      border-color: rgba(125, 211, 252, 0.32);
-      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.24);
-    }
-
-    .site-card.active::after {
-      content: "";
-      position: absolute;
-      inset: auto 1rem 1rem auto;
-      width: 0.7rem;
-      height: 0.7rem;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 18px var(--glow);
-    }
-
-    .site-thumb {
-      aspect-ratio: 16 / 9;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      background:
-        linear-gradient(135deg, rgba(56, 189, 248, 0.32), rgba(15, 23, 42, 0.2)),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    .preview-frame {
+      border: 1px solid var(--border);
+      border-radius: 10px;
       overflow: hidden;
-      position: relative;
+      background: #101011;
     }
 
-    .site-thumb::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(180deg, rgba(7, 10, 16, 0.12), rgba(7, 10, 16, 0.65)),
-        repeating-linear-gradient(
-          90deg,
-          rgba(255, 255, 255, 0.08) 0,
-          rgba(255, 255, 255, 0.08) 1px,
-          transparent 1px,
-          transparent 46px
-        );
-    }
-
-    .site-thumb span {
-      position: absolute;
-      left: 0.9rem;
-      bottom: 0.9rem;
-      z-index: 1;
+    .preview-bar {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
       font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.92);
+      background: #151516;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .site-copy {
-      display: grid;
-      gap: 0.45rem;
+    iframe {
+      width: 100%;
+      height: 560px;
+      border: 0;
+      display: block;
+      background: #111;
     }
 
-    .site-card h3 {
-      font-size: 1.05rem;
-    }
-
-    .site-card p {
+    .note {
       margin: 0;
       color: var(--muted);
-      line-height: 1.6;
-      font-size: 0.93rem;
+      font-size: 0.9rem;
     }
 
-    .site-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.55rem;
-    }
-
-    .site-meta span {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.4rem 0.6rem;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--muted);
-      font-size: 0.78rem;
-    }
-
-    .template-panel {
-      padding: 1.1rem;
-    }
-
-    .template-panel h3 {
-      font-size: 1.45rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .template-panel p {
-      margin: 0 0 1rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .code-card {
-      padding: 1rem;
-      border-radius: 18px;
-      background: rgba(4, 7, 12, 0.88);
-      border: 1px solid rgba(125, 211, 252, 0.14);
-      overflow-x: auto;
-    }
-
-    pre {
-      margin: 0;
-      color: #d9f7ff;
-      font-size: 0.88rem;
-      line-height: 1.65;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .template-tip {
-      margin-top: 0.9rem;
-      padding: 0.9rem 1rem;
-      border-radius: 16px;
-      background: var(--accent-soft);
-      border: 1px solid rgba(125, 211, 252, 0.14);
-      color: #d7f5ff;
-    }
-
-    .template-tip strong {
-      color: #f3fbff;
-    }
-
-    @media (max-width: 1080px) {
-      .hero-grid,
-      .main-grid,
-      .feature-grid {
+    @media (max-width: 900px) {
+      .layout {
         grid-template-columns: 1fr;
       }
 
-      .preview-shell {
-        min-height: auto;
+      .info-grid {
+        grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 760px) {
-      .page-shell {
-        width: min(100% - 1rem, 1240px);
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 12px, 1100px);
+        margin: 12px auto;
       }
 
-      .hero {
-        padding: 1.1rem;
+      .doc {
+        padding: 12px;
       }
 
-      .hero-top,
-      .section-head {
+      .section {
+        padding: 14px;
+      }
+
+      .topbar,
+      .viewer-head {
         flex-direction: column;
         align-items: start;
-      }
-
-      .quick-stats,
-      .meta-grid {
-        grid-template-columns: 1fr;
       }
 
       iframe {
@@ -679,209 +311,124 @@
   </style>
 </head>
 <body>
-  <div class="backdrop" aria-hidden="true"></div>
-
-  <div class="page-shell">
-    <header class="hero">
-      <div class="hero-top">
-        <div class="badge">Dark Mode Website Hub</div>
+  <div class="page">
+    <div class="doc-shell">
+      <div class="topbar">
+        <h1>Website Hub</h1>
+        <span>Simple grey and black layout</span>
       </div>
 
-      <div class="hero-grid">
-        <div class="hero-copy">
-          <h1>Your sites, one home.</h1>
+      <main class="doc">
+        <section class="section">
+          <h2>Website Template</h2>
           <p>
-            This hub gives you one dark-mode homepage where you can jump into your main website,
-            keep a list of other links, and preview the selected site without leaving the page.
+            Add new websites by copying one object into the <code>sites</code> array at the bottom of this file.
           </p>
-
-          <div class="quick-stats">
-            <div class="stat">
-              <strong>Featured website</strong>
-              <span>Highlight your main site and open it instantly.</span>
-            </div>
-            <div class="stat">
-              <strong>Live preview</strong>
-              <span>See the selected website inside the hub when embedding is allowed.</span>
-            </div>
-            <div class="stat">
-              <strong>Easy template</strong>
-              <span>Add more sites by copying one small object in the list.</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="hero-side">
-          <div class="floating-panel">
-            <span class="label">How it works</span>
-            <p>
-              Click any site card on the right and the big preview area updates. The action buttons let
-              you open the real website, while the template below shows exactly how to add more links.
-            </p>
-          </div>
-
-          <div class="floating-panel">
-            <span class="label">Best use</span>
-            <p>Use your own URL for the first card, then stack social pages, portfolios, stores, docs, or anything else.</p>
-            <div class="link-chip-row">
-              <span class="link-chip">Main website</span>
-              <span class="link-chip">Portfolio</span>
-              <span class="link-chip">Store</span>
-              <span class="link-chip">Social links</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <main class="main-grid">
-      <section class="panel feature-panel" aria-labelledby="featured-heading">
-        <div class="section-head">
-          <div>
-            <h2 id="featured-heading">Featured website</h2>
-          </div>
-          <p>Select a card to switch the featured website and preview.</p>
-        </div>
-
-        <div class="feature-grid">
-          <div class="preview-shell">
-            <div class="preview-bar">
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <div class="preview-url" id="previewUrl">https://your-site-url.com</div>
-            </div>
-            <iframe
-              id="sitePreview"
-              title="Website preview"
-              src="https://example.com"
-              loading="lazy"
-              referrerpolicy="no-referrer"
-            ></iframe>
-            <div class="preview-note">
-              Some websites block iframe embeds. If that happens, use the open button to visit the real site directly.
-            </div>
-          </div>
-
-          <div class="feature-copy">
-            <div class="feature-card">
-              <div class="feature-tag">Now Selected</div>
-              <h2 id="featureTitle">Your Main Website</h2>
-              <p id="featureDescription">
-                Replace this with your real website link so this hub becomes your main launch page.
-              </p>
-
-              <div class="action-row">
-                <a class="button button-primary" id="visitButton" href="https://your-site-url.com" target="_blank" rel="noreferrer">
-                  Open Website
-                </a>
-                <a class="button button-secondary" id="secondaryButton" href="#siteLinks">
-                  Browse Site Links
-                </a>
-              </div>
-            </div>
-
-            <div class="meta-grid">
-              <div class="meta-card">
-                <span>Category</span>
-                <strong id="featureCategory">Main hub</strong>
-              </div>
-              <div class="meta-card">
-                <span>Status</span>
-                <strong id="featureStatus">Ready to customize</strong>
-              </div>
-              <div class="meta-card">
-                <span>Preview URL</span>
-                <strong id="featureUrl">https://your-site-url.com</strong>
-              </div>
-              <div class="meta-card">
-                <span>Best for</span>
-                <strong id="featureUse">Homepage, portfolio, or personal brand</strong>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <aside class="sidebar-stack">
-        <section class="panel" id="siteLinks" aria-labelledby="links-heading">
-          <div class="panel-head">
-            <h3 id="links-heading">Website Links</h3>
-            <span>Click to switch preview</span>
-          </div>
-          <div class="site-list" id="siteList"></div>
-        </section>
-
-        <section class="panel template-panel" aria-labelledby="template-heading">
-          <h3 id="template-heading">Add More Sites</h3>
-          <p>
-            Open the script at the bottom of this file and add another object inside the
-            <code>sites</code> array using this template.
-          </p>
-
-          <div class="code-card">
+          <div class="template-box">
             <pre>{
   title: "New Website",
-  description: "Short line about what the site is for.",
+  description: "Short line about the website.",
   url: "https://your-link.com",
   preview: "https://your-link.com",
-  category: "Portfolio",
-  status: "Live now",
-  use: "Sharing work",
-  label: "Preview"
+  category: "Main site",
+  status: "Live",
+  use: "What this site is for"
 }</pre>
           </div>
+        </section>
 
-          <div class="template-tip">
-            <strong>Tip:</strong> if a website does not preview inside the iframe, keep the same
-            <code>url</code> and just use the hub as a launcher.
+        <section class="section">
+          <div class="layout">
+            <div>
+              <h3>Website Links</h3>
+              <p>Select a website to show it in the preview.</p>
+              <div class="link-list" id="siteList"></div>
+            </div>
+
+            <div class="viewer">
+              <div class="viewer-head">
+                <div>
+                  <h2 id="featureTitle">Your Main Website</h2>
+                  <p id="featureDescription">Replace this with your real website.</p>
+                </div>
+                <div class="actions">
+                  <a class="button" id="visitButton" href="https://your-site-url.com" target="_blank" rel="noreferrer">Open Website</a>
+                </div>
+              </div>
+
+              <div class="info-grid">
+                <div class="info-box">
+                  <strong>Category</strong>
+                  <span id="featureCategory">Main site</span>
+                </div>
+                <div class="info-box">
+                  <strong>Status</strong>
+                  <span id="featureStatus">Ready to edit</span>
+                </div>
+                <div class="info-box">
+                  <strong>Use</strong>
+                  <span id="featureUse">Homepage or hub</span>
+                </div>
+              </div>
+
+              <div class="preview-frame">
+                <div class="preview-bar" id="previewUrl">https://your-site-url.com</div>
+                <iframe
+                  id="sitePreview"
+                  title="Website preview"
+                  src="https://example.com"
+                  loading="lazy"
+                  referrerpolicy="no-referrer"
+                ></iframe>
+              </div>
+
+              <p class="note">
+                Some websites may not load inside the preview if they block iframe embedding.
+              </p>
+            </div>
           </div>
         </section>
-      </aside>
-    </main>
+      </main>
+    </div>
   </div>
 
   <script>
     const sites = [
       {
         title: "Your Main Website",
-        description: "Replace this with your real website link so this hub becomes your main launch page.",
+        description: "Replace this with your real website.",
         url: "https://your-site-url.com",
         preview: "https://example.com",
-        category: "Main hub",
-        status: "Ready to customize",
-        use: "Homepage, portfolio, or personal brand",
-        label: "Main site"
+        category: "Main site",
+        status: "Ready to edit",
+        use: "Homepage or hub"
       },
       {
-        title: "Portfolio Space",
-        description: "Use this card for your creative work, projects, or personal showcase.",
+        title: "Portfolio",
+        description: "Use this for your portfolio or personal work.",
         url: "https://example.com/portfolio",
         preview: "https://example.com",
         category: "Portfolio",
-        status: "Template card",
-        use: "Design, coding, or client work",
-        label: "Portfolio"
+        status: "Template",
+        use: "Projects and work"
       },
       {
-        title: "Storefront",
-        description: "Point this to your shop, booking page, or product landing page.",
+        title: "Store",
+        description: "Use this for a store or services page.",
         url: "https://example.com/store",
         preview: "https://example.com",
         category: "Store",
-        status: "Template card",
-        use: "Selling products or services",
-        label: "Store"
+        status: "Template",
+        use: "Products and services"
       },
       {
-        title: "Social Landing",
-        description: "A place for all your socials, contact links, or community pages.",
-        url: "https://example.com/social",
+        title: "Links Page",
+        description: "Use this for socials and other important links.",
+        url: "https://example.com/links",
         preview: "https://example.com",
         category: "Links",
-        status: "Template card",
-        use: "Traffic from TikTok, Instagram, or YouTube",
-        label: "Links"
+        status: "Template",
+        use: "Socials and contact"
       }
     ];
 
@@ -892,7 +439,6 @@
     const featureDescription = document.getElementById("featureDescription");
     const featureCategory = document.getElementById("featureCategory");
     const featureStatus = document.getElementById("featureStatus");
-    const featureUrl = document.getElementById("featureUrl");
     const featureUse = document.getElementById("featureUse");
     const visitButton = document.getElementById("visitButton");
 
@@ -901,7 +447,6 @@
       featureDescription.textContent = site.description;
       featureCategory.textContent = site.category;
       featureStatus.textContent = site.status;
-      featureUrl.textContent = site.url;
       featureUse.textContent = site.use;
       previewUrl.textContent = site.preview;
       sitePreview.src = site.preview;
@@ -922,11 +467,8 @@
       button.className = "site-card";
       button.setAttribute("aria-pressed", "false");
       button.innerHTML = `
-        <div class="site-thumb"><span>${site.label}</span></div>
-        <div class="site-copy">
-          <h3>${site.title}</h3>
-          <p>${site.description}</p>
-        </div>
+        <h3>${site.title}</h3>
+        <p>${site.description}</p>
         <div class="site-meta">
           <span>${site.category}</span>
           <span>${site.status}</span>
